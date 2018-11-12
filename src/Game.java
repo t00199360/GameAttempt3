@@ -1,3 +1,5 @@
+//I watched a youtube tutorial on how to create JFrames and use JButtons inside them. https://www.youtube.com/watch?v=RcvABhflOkI
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,12 +10,12 @@ public class Game {
 
     JFrame DisplayWindow;
     Container con;
-    JPanel TitlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel;
+    JPanel TitlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel, secondaryTextPanel;
     JLabel TitleName, HPLabel, HPLabelNumber, WeaponLabel, WeaponLabelName;           //font name,        font style   size
-    Font TitleFont = new Font("Calibri", Font.PLAIN,50);
-    Font normalFont = new Font("Calibri", Font.PLAIN, 30);
+    Font TitleFont = new Font("Garamond", Font.PLAIN,50);
+    Font normalFont = new Font("Garamond", Font.PLAIN, 30);
     JButton startButton, choice1, choice2, choice3, choice4;
-    JTextArea mainTextArea;
+    JTextArea mainTextArea, secondaryTextArea;
 
     int playerHealthValue;
     String weapon;
@@ -31,7 +33,7 @@ public class Game {
     String[] enemies = {"Skeleton", "Zombie", "Warrior", "Assassin", "Gremlin", "Dragon"};
     int maxEnemyHealth = 75;
     int enemyAttackDamage = 25;
-    int enemyWave = 1;
+    int distance=10;
 
     //Player Variables
     int numHealthPotions = 3;
@@ -96,6 +98,19 @@ public class Game {
         mainTextArea.setFont(normalFont);           //sets font
         mainTextArea.setLineWrap(true);     //sets the text to go to the next line if the container is too small
         mainTextPanel.add(mainTextArea);        //adds the text area to the panel
+
+        secondaryTextPanel = new JPanel();
+        secondaryTextPanel.setBounds(300,300,600,100);
+        secondaryTextPanel.setBackground(Color.LIGHT_GRAY);
+        con.add(secondaryTextPanel);
+
+        secondaryTextArea = new JTextArea();
+        secondaryTextArea.setBounds(250,350,300,150);
+        secondaryTextArea.setBackground(Color.LIGHT_GRAY);        //text color
+        secondaryTextArea.setForeground(Color.BLUE);        //text color
+        secondaryTextArea.setFont(normalFont);           //sets font
+        secondaryTextArea.setLineWrap(true);     //sets the text to go to the next line if the container is too small
+        secondaryTextPanel.add(secondaryTextArea);        //adds the text area to the panel
 
         //this panel is the container for the possible actions the player can take in the game
         choiceButtonPanel = new JPanel();
@@ -181,7 +196,7 @@ public class Game {
 
     public void dungeonStart(){
         mainTextArea.setText("You are about to enter the fabled Dungeons Of   Fortuna. \nMany men have fallen while attempting this" +
-                "        arduous task. Proceed at your own risk. \nThere are four possible ways to proceed:");
+                "\narduous task. Proceed at your own risk. \nThere are four possible ways to proceed:");
 
         choice1.setText("Head West");
         choice1.addActionListener(WestHandler);
@@ -195,50 +210,55 @@ public class Game {
     }
 
     public void West(){
-
         int enemyHealth = rand.nextInt(maxEnemyHealth);
         String enemy = enemies[rand.nextInt(enemies.length)];
-        GAME:           //<-- idea for using labels to loop combat came from codecourse.com     <--label for while loop
+        GAME:
+        for (int i=0;i<distance;i++) {
 
-        mainTextArea.setText("After proceeding west you encounter a(n) " + "\n" + enemy +
+        secondaryTextArea.setText("After proceeding west you encounter a(n) " + "\n" + enemy +
                 ". What would you like to do?");
 
-        choice1.setText("Attack the " + enemy);
-        choice2.setText("Try and sneak past it");
-        choice3.setText("Head back the way you came");
-        choice4.setText("Drink a health potion");
 
-        if (choice1.getModel().isPressed()) {
-            int damageDealt = rand.nextInt(attackDamage);
 
-            //int damageTaken = rand.nextInt(enemyAttackDamage);
+            secondaryTextArea.setText("Your HP is: " + playerHealthValue
+                    + enemy + "'s HP: " + enemyHealth);
 
-            enemyHealth -= damageDealt;
-            //playerHealth -= damageTaken;
+            choice1.setText("Attack the " + enemy);
+            choice2.setText("Try and sneak past it");
+            choice3.setText("Head back the way you came");
+            choice4.setText("Drink a health potion");
 
-            JOptionPane.showMessageDialog(null, "\t> You strike the " + enemy + " for " + damageDealt + " damage.");
-            JOptionPane.showMessageDialog(null, "\t> You receive " /*+ damageTaken */+ " in retaliation!");
+            if (choice1.getModel().isPressed()) {
+                int damageDealt = rand.nextInt(attackDamage);
 
-            if (playerHealthValue < 1) {
-                JOptionPane.showMessageDialog(null, "\t> You have taken too much damage and have been slain!");
-                System.exit(0);
+                //int damageTaken = rand.nextInt(enemyAttackDamage);
+
+                enemyHealth -= damageDealt;
+                //playerHealth -= damageTaken;
+
+                secondaryTextArea.setText("\t> You strike the " + enemy + " for " + damageDealt + " damage.");
+                secondaryTextArea.setText("\t> You receive " /*+ damageTaken */ + " in retaliation!");
+
+                if (playerHealthValue < 1) {
+                    secondaryTextArea.setText("\t> You have taken too much damage and have been slain!");
+                    System.exit(0);
+                }
+            } else if (choice2.getModel().isPressed()) {
+                if (numHealthPotions > 0) {
+                    playerHealthValue += healthPotionHealNum;
+                    numHealthPotions--;
+                    mainTextArea.setText("\t> You drink a health potion healing yourself for " + healthPotionHealNum + ". "
+                            + "\n\t You now have " + playerHealthValue + " HP."
+                            + "\n\t> You have " + numHealthPotions + " health potions left. \n");
+                } else {
+                    secondaryTextArea.setText("\t You have no health potions left! Defeat enemies to earn more!");
+                }
+            } else if (choice3.getModel().isPressed()) {
+                secondaryTextArea.setText("\t You run away from the " + enemy + "!");
+                continue GAME;
             }
-        } else if (choice2.getModel().isPressed()) {
-            if (numHealthPotions > 0) {
-                playerHealthValue += healthPotionHealNum;
-                numHealthPotions--;
-                JOptionPane.showMessageDialog(null, "\t> You drink a health potion healing yourself for " + healthPotionHealNum + ". "
-                        + "\n\t You now have " + playerHealthValue + " HP."
-                        + "\n\t> You have " + numHealthPotions + " health potions left. \n");
-            } else {
-                JOptionPane.showMessageDialog(null, "\t You have no health potions left! Defeat enemies to earn more!");
-            }
-        } else if (choice3.getModel().isPressed()) {
-            JOptionPane.showMessageDialog(null, "\t You run away from the " + enemy + "!");
-            //continue GAME;
+
         }
-
-
     }
 
     public class TitleScreenHandler implements ActionListener
