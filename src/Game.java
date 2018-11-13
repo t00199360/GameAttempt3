@@ -11,7 +11,8 @@ public class Game {
     JFrame DisplayWindow;
     Container con;
     JPanel TitlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel, secondaryTextPanel;
-    JLabel TitleName, HPLabel, HPLabelNumber, WeaponLabel, WeaponLabelName;           //font name,        font style   size
+    JLabel TitleName, HPLabel, HPLabelNumber, WeaponLabel, WeaponLabelName;
+                                //font name,        font style   size
     Font TitleFont = new Font("Garamond", Font.PLAIN,50);
     Font normalFont = new Font("Garamond", Font.PLAIN, 30);
     JButton startButton, choice1, choice2, choice3, choice4;
@@ -30,10 +31,10 @@ public class Game {
     Random rand = new Random();     //<--this is a random number generator
 
     //Game Variables
-    String[] enemies = {"Skeleton", "Zombie", "Warrior", "Assassin", "Gremlin", "Dragon"};
-    int maxEnemyHealth = 75;
-    int enemyAttackDamage = 25;
-    int distance=10;
+    String[] enemies = {"Skeleton", "Zombie", "Warrior", "Assassin", "Gremlin", "Dragon"};      //enemies will be picked at random from this array
+    int maxEnemyHealth = 75;                                                                    //although enemy health will be picked at random, it must be lower or equal to this value
+    int enemyAttackDamage = 25;                                                                 //although enemy damage will be generated at random, it cannot exceed this value
+    int distance=10;                                                                            //I plan on having the game stop after ten enemies wiht a "you found the treasure" message
 
     //Player Variables
     int numHealthPotions = 3;
@@ -50,21 +51,21 @@ public class Game {
     public Game()
     {
         DisplayWindow=new JFrame();
-        DisplayWindow.setSize(800,600);
+        DisplayWindow.setSize(1200,800);
         DisplayWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       //sets the close operation
         DisplayWindow.getContentPane().setBackground(Color.LIGHT_GRAY);      //sets the background color of the frame
         DisplayWindow.setLayout(null);      //disable the layout for a custom layout
         con = DisplayWindow.getContentPane();
 
         TitlePanel = new JPanel();
-        TitlePanel.setBounds(100,100,600,150);  //x-axis:100,y-axis:100,width and height of "text box"
+        TitlePanel.setBounds(200,200,800,350);  //x-axis:100,y-axis:100,width and height of "text box"
         TitlePanel.setBackground(Color.LIGHT_GRAY);   //choosing the color for the panel
         TitleName = new JLabel("Dungeons Of Fortuna");  //Label that will display the title of the game
         TitleName.setForeground(Color.BLUE);
         TitleName.setFont(TitleFont);
 
         startButtonPanel = new JPanel();        //creating a new panel
-        startButtonPanel.setBounds(300,400,200,100);
+        startButtonPanel.setBounds(510,650,200,100);
         startButtonPanel.setBackground(Color.LIGHT_GRAY);        //setting color of panel
 
         startButton = new JButton("START");     //creates a button
@@ -87,11 +88,11 @@ public class Game {
 
 
         mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(100,100,600,250);
+        mainTextPanel.setBounds(200,200,800,350);
         mainTextPanel.setBackground(Color.LIGHT_GRAY);
         con.add(mainTextPanel);
 
-        mainTextArea = new JTextArea("This is the main text area. This text will not overlap once it runs out of space");       //text that will be displayed in the panel
+        mainTextArea = new JTextArea("");       //text that will be displayed in the panel
         mainTextArea.setBounds(100,100,600,250);    //sets the area for the the panel, see the previous bounds command for explanation
         mainTextArea.setBackground(Color.LIGHT_GRAY);        //text color
         mainTextArea.setForeground(Color.BLUE);        //text color
@@ -100,12 +101,12 @@ public class Game {
         mainTextPanel.add(mainTextArea);        //adds the text area to the panel
 
         secondaryTextPanel = new JPanel();
-        secondaryTextPanel.setBounds(300,300,600,100);
+        secondaryTextPanel.setBounds(325,375,600,100);
         secondaryTextPanel.setBackground(Color.LIGHT_GRAY);
         con.add(secondaryTextPanel);
 
         secondaryTextArea = new JTextArea();
-        secondaryTextArea.setBounds(250,350,300,150);
+        secondaryTextArea.setBounds(350,350,300,150);
         secondaryTextArea.setBackground(Color.LIGHT_GRAY);        //text color
         secondaryTextArea.setForeground(Color.BLUE);        //text color
         secondaryTextArea.setFont(normalFont);           //sets font
@@ -114,7 +115,7 @@ public class Game {
 
         //this panel is the container for the possible actions the player can take in the game
         choiceButtonPanel = new JPanel();
-        choiceButtonPanel.setBounds(250,350,300,150);
+        choiceButtonPanel.setBounds(400,550,300,150);
         choiceButtonPanel.setBackground(Color.LIGHT_GRAY);
         choiceButtonPanel.setLayout(new GridLayout(4,1));   //means one column and four rows of added components
         con.add(choiceButtonPanel);
@@ -152,7 +153,7 @@ public class Game {
 
         //creates and sets the values for the Players stats
         playerPanel = new JPanel();
-        playerPanel.setBounds(100,15,600,50);
+        playerPanel.setBounds(300,15,600,50);
         playerPanel.setBackground(Color.LIGHT_GRAY);
         playerPanel.setLayout(new GridLayout(1,4));
         con.add(playerPanel);
@@ -160,13 +161,13 @@ public class Game {
         //this will display the "HP:" section of the text
         HPLabel = new JLabel("HP: ");
         HPLabel.setFont(normalFont);
-        HPLabel.setForeground(Color.GREEN);
+        HPLabel.setForeground(Color.GREEN);     //ideally id like to change this to a darker green.
         playerPanel.add(HPLabel);
 
         //this will display the variable for health
         HPLabelNumber = new JLabel();
         HPLabelNumber.setFont(normalFont);
-        HPLabelNumber.setForeground(Color.GREEN);
+        HPLabelNumber.setForeground(Color.GREEN);        //ideally id like to change this to a darker green.
         playerPanel.add(HPLabelNumber);
 
         //this displays the "weapon:" text
@@ -212,7 +213,7 @@ public class Game {
     public void West(){
         int enemyHealth = rand.nextInt(maxEnemyHealth);
         String enemy = enemies[rand.nextInt(enemies.length)];
-        GAME:
+        GAME:       //If using labels is a problem its John Brosnan's fault, I was going to change them but he said to leave them in.
         for (int i=0;i<distance;i++) {
 
         secondaryTextArea.setText("After proceeding west you encounter a(n) " + "\n" + enemy +
@@ -220,7 +221,7 @@ public class Game {
 
 
 
-            secondaryTextArea.setText("Your HP is: " + playerHealthValue
+            secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
                     + enemy + "'s HP: " + enemyHealth);
 
             choice1.setText("Attack the " + enemy);
