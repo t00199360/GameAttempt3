@@ -266,50 +266,29 @@ public class Game {
         choice4.setText("Head back the way you came");
     }
 
-    public void East(){
-        int enemyHealth = rand.nextInt(maxEnemyHealth);             //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-        String enemy = enemies[rand.nextInt(enemies.length)];       //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-        //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
+    public void East(){ //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
         for (int i=0;i<distance;i++) {
 
             secondaryTextArea.setText("After proceeding East you encounter a(n) " + "\n" + enemy +
                     ". What would you like to do?");
 
-                secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
-                        + enemy + "'s HP: " + enemyHealth);
+            secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
+                    + enemy + "'s HP: " + enemyHealth);
 
-            newAreaOptions();
+            newAreaOptions();           //presents the new button text and handlers are removed and new ones are added to the buttons
 
             if (choice1.getModel().isPressed()) {
-                int damageDealt = rand.nextInt(attackDamage);           //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
-                int damageTaken = rand.nextInt(enemyAttackDamage);      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
-                enemyHealth -= damageDealt;
-                playerHealthValue -= damageTaken;
-
-                secondaryTextArea.setText("\t> You strike the " + enemy + " for " + damageDealt + " damage.");
-                secondaryTextArea.setText("\t> You receive " + damageTaken  + " in retaliation!");
+                attack();
 
                 if (playerHealthValue < 1) {
                     secondaryTextArea.setText("\t> You have taken too much damage and have been slain!");
 
                 }
             } else if (choice2.getModel().isPressed()) {
-                if (numHealthPotions > 0) {
-                    playerHealthValue += healthPotionHealNum;               //It says duplicated code in compiler but thats just because its essentially the same thing only you headed a different diection
-                    numHealthPotions--;
-                    mainTextArea.setText("\t> You drink a health potion healing yourself for " + healthPotionHealNum + ". "
-                            + "\n\t You now have " + playerHealthValue + " HP."
-                            + "\n\t> You have " + numHealthPotions + " health potions left. \n");
-                } else {
-                    secondaryTextArea.setText("\t You have no health potions left! Defeat enemies to earn more!");
-                }
+                heal();
+
             } else if (choice3.getModel().isPressed()) {
-                distance=rand.nextInt(lostDistance);            //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-                secondaryTextArea.setText("\t You run away from the " + enemy + " in a state of fear! \n delirious from this you have lost your way!");
-
-
+                runAway();
                 //continue GAME;   <-- referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
             }
 
