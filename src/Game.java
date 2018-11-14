@@ -19,8 +19,8 @@ public class Game {
     JButton startButton, choice1, choice2, choice3, choice4;
     JTextArea mainTextArea, secondaryTextArea;
 
-    int playerHealthValue;
-    String weapon;
+
+    String weapon="fists";
 
     TitleScreenHandler TSHandler = new TitleScreenHandler();//task handler for the title screen
     WestHandler WestHandler = new WestHandler();            //task handler for heading west
@@ -39,7 +39,7 @@ public class Game {
     String[] enemies = {"Skeleton", "Zombie", "Warrior", "Assassin", "Gremlin", "Dragon"};      //enemies will be picked at random from this array
     int maxEnemyHealth = 75;                                                                    //although enemy health will be picked at random, it must be lower or equal to this value
     int enemyAttackDamage = 25;                                                                 //although enemy damage will be generated at random, it cannot exceed this value
-    int distance=10;                                                                            //I plan on having the game stop after ten enemies wiht a "you found the treasure" message
+    int distance=10;                                                                            //I plan on having the game stop after ten enemies with a "you found the treasure" message
     int lostDistance=9;
 
     //enemy variable
@@ -52,6 +52,7 @@ public class Game {
     int attackDamage = 30;              //max attack damage the player can inflict
     int healthPotionHealNum = 30;       //amount by which the health potion heals
     int healthPotionDropChance = 25;      //percentage chance of a potion dropped when an enemy is killed
+    int playerHealthValue = 100;
 
 
     public static void main(String[] args)
@@ -157,9 +158,9 @@ public class Game {
         choice4 = new JButton("Option 4");      //creates the button
         choice4.setBackground(Color.LIGHT_GRAY);         //sets the background color
         choice4.setForeground(Color.BLUE);                  //sets the font color
-        choice4.setFont(normalFont);
-        choiceButtonPanel.add(choice4);
-        choice4.setFocusPainted(false);
+        choice4.setFont(normalFont);                        //sets the font
+        choiceButtonPanel.add(choice4);                     //adds the button to the panel
+        choice4.setFocusPainted(false);                         //hides the focus decoration
 
 
         //creates and sets the values for the Players stats
@@ -195,29 +196,27 @@ public class Game {
         playerPanel.add(WeaponLabel);
 
         playerStatsSetup();
-    }
-
-    private void playerStatsSetup() {
-        playerHealthValue = 100;
-        weapon = "Fists";
-        WeaponLabel.setText(weapon);
-        HPLabelNumber.setText("" + playerHealthValue);
-
         dungeonStart();
     }
 
-    public void dungeonStart(){
-        mainTextArea.setText("You are about to enter the fabled Dungeons Of   Fortuna. \nMany men have fallen while attempting this" +
-                "\narduous task. Proceed at your own risk. \nThere are four possible ways to proceed:");
 
-        directionChoice();
+
+    public void dungeonStart(){
+
+        firstDirectionChoice();
+       /* try {
+            Thread.sleep(5000);     //trying to make the code wait before it overwrites the mainTextAreas content
+        }catch (InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }*/
     }
 
     public void West(){
         //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        for (int i=0;i<distance;i++) {
 
-        secondaryTextArea.setText("After proceeding west you encounter a(n) " + "\n" + enemy +
+
+        mainTextArea.setText("After proceeding west you encounter a(n) " + "\n" + enemy +
                 ". What would you like to do?");
 
             secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
@@ -225,26 +224,11 @@ public class Game {
 
             newAreaOptions();           //presents the new button text and handlers are removed and new ones are added to the buttons
 
-            if (choice1.getModel().isPressed()) {
-                attack();
-
-                if (playerHealthValue < 1) {
-                    secondaryTextArea.setText("\t> You have taken too much damage and have been slain!");
-
-                }
-            } else if (choice2.getModel().isPressed()) {
-                heal();
-
-            } else if (choice3.getModel().isPressed()) {
-                runAway();
-                //continue GAME;   <-- referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-            }
-
             if (enemyHealth<=0)
             {
                 directionChoice();
             }
-        }
+
     }
 
     private void newAreaOptions() {
@@ -264,12 +248,21 @@ public class Game {
         choice4.removeActionListener(SouthHandler);
         choice4.addActionListener(runAwayHandler);
         choice4.setText("Head back the way you came");
+
+        if (choice1.getModel().isPressed()) {
+            attack();
+        } else if (choice2.getModel().isPressed()) {
+            heal();
+        } else if (choice3.getModel().isPressed()) {
+            runAway();
+            //continue GAME;   <-- referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
+        }
     }
 
     public void East(){ //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        for (int i=0;i<distance;i++) {
 
-            secondaryTextArea.setText("After proceeding East you encounter a(n) " + "\n" + enemy +
+
+            mainTextArea.setText("After proceeding East you encounter a(n) " + "\n" + enemy +
                     ". What would you like to do?");
 
             secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
@@ -277,141 +270,70 @@ public class Game {
 
             newAreaOptions();           //presents the new button text and handlers are removed and new ones are added to the buttons
 
-            if (choice1.getModel().isPressed()) {
-                attack();
-
-                if (playerHealthValue < 1) {
-                    secondaryTextArea.setText("\t> You have taken too much damage and have been slain!");
-
-                }
-            } else if (choice2.getModel().isPressed()) {
-                heal();
-
-            } else if (choice3.getModel().isPressed()) {
-                runAway();
-                //continue GAME;   <-- referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-            }
-
             if (enemyHealth<=0)
             {
                 directionChoice();
             }
-        }
+
     }
 
     public void North(){
         int enemyHealth = rand.nextInt(maxEnemyHealth);             //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         String enemy = enemies[rand.nextInt(enemies.length)];       //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        for (int i=0;i<distance;i++) {
 
-            secondaryTextArea.setText("After proceeding North you encounter a(n) " + "\n" + enemy +
+
+            mainTextArea.setText("After proceeding North you encounter a(n) " + "\n" + enemy +
                     ". What would you like to do?");
 
                 secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
                         + enemy + "'s HP: " + enemyHealth);
 
             newAreaOptions();
-            if (choice1.getModel().isPressed()) {
-                int damageDealt = rand.nextInt(attackDamage);           //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
-                int damageTaken = rand.nextInt(enemyAttackDamage);      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
-                enemyHealth -= damageDealt;
-                playerHealthValue -= damageTaken;
-
-                secondaryTextArea.setText("\t> You strike the " + enemy + " for " + damageDealt + " damage.");
-                secondaryTextArea.setText("\t> You receive " + damageTaken  + " in retaliation!");
-
-                if (playerHealthValue < 1) {
-                    secondaryTextArea.setText("\t> You have taken too much damage and have been slain!");
-
-                }
-            } else if (choice2.getModel().isPressed()) {
-                if (numHealthPotions > 0) {
-                    playerHealthValue += healthPotionHealNum;               //It says duplicated code in compiler but thats just because its essentially the same thing only you headed a different diection
-                    numHealthPotions--;
-                    mainTextArea.setText("\t> You drink a health potion healing yourself for " + healthPotionHealNum + ". "
-                            + "\n\t You now have " + playerHealthValue + " HP."
-                            + "\n\t> You have " + numHealthPotions + " health potions left. \n");
-                } else {
-                    secondaryTextArea.setText("\t You have no health potions left! Defeat enemies to earn more!");
-                }
-            } else if (choice3.getModel().isPressed()) {
-                distance=rand.nextInt(lostDistance);            //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-                secondaryTextArea.setText("\t You run away from the " + enemy + " in a state of fear! \n delirious from this you have lost your way!");
-
-
-                //continue GAME;   <-- referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-            }
 
             if (enemyHealth<=0)
             {
                 directionChoice();
             }
-        }
     }
 
     public void South(){
         int enemyHealth = rand.nextInt(maxEnemyHealth);             //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         String enemy = enemies[rand.nextInt(enemies.length)];       //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        for (int i=0;i<distance;i++) {
 
-            secondaryTextArea.setText("After proceeding South you encounter a(n) " + "\n" + enemy +
+
+            mainTextArea.setText("After proceeding South you encounter a(n) " + "\n" + enemy +
                     ". What would you like to do?");
-            boolean isCombat=true;
 
-            while(isCombat=true)
-                secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
-                        + enemy + "'s HP: " + enemyHealth);
+            secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
+                    + enemy + "'s HP: " + enemyHealth);
 
-            choice1.setText("Attack the " + enemy);
-            choice2.setText("Drink a health potion");
-            choice3.setText("Try and sneak past it");
-            choice4.setText("Head back the way you came");
+            newAreaOptions();
 
-            if (choice1.getModel().isPressed()) {
-                int damageDealt = rand.nextInt(attackDamage);           //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
-                int damageTaken = rand.nextInt(enemyAttackDamage);      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
-                enemyHealth -= damageDealt;
-                playerHealthValue -= damageTaken;
-
-                secondaryTextArea.setText("\t> You strike the " + enemy + " for " + damageDealt + " damage.");
-                secondaryTextArea.setText("\t> You receive " + damageTaken  + " in retaliation!");
-
-                if (playerHealthValue < 1) {
-                    secondaryTextArea.setText("\t> You have taken too much damage and have been slain!");
-                    isCombat=false;
-                }
-            } else if (choice2.getModel().isPressed()) {
-                if (numHealthPotions > 0) {
-                    playerHealthValue += healthPotionHealNum;               //It says duplicated code in compiler but thats just because its essentially the same thing only you headed a different diection
-                    numHealthPotions--;
-                    mainTextArea.setText("\t> You drink a health potion healing yourself for " + healthPotionHealNum + ". "
-                            + "\n\t You now have " + playerHealthValue + " HP."
-                            + "\n\t> You have " + numHealthPotions + " health potions left. \n");
-                } else {
-                    secondaryTextArea.setText("\t You have no health potions left! Defeat enemies to earn more!");
-                }
-            } else if (choice3.getModel().isPressed()) {
-                distance=rand.nextInt(lostDistance);            //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-                secondaryTextArea.setText("\t You run away from the " + enemy + " in a state of fear! \n delirious from this you have lost your way!");
-                isCombat=false;
-
-                //continue GAME;   <-- referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-            }
             if (enemyHealth<=0)
             {
                 directionChoice();
             }
 
-        }
     }
 
+    private void firstDirectionChoice()
+    {
+        mainTextArea.setText("You are about to enter the fabled Dungeons Of   Fortuna. \nMany men have fallen while attempting this" +
+                "\narduous task. Proceed at your own risk. \nThere are four possible ways to proceed:");
+        choice1.setText("Head West");
+        choice1.addActionListener(WestHandler);
+        choice2.setText("Head East");
+        choice2.addActionListener(EastHandler);             //put this in a victory method
+        choice3.setText("Head North");
+        choice3.addActionListener(NorthHandler);
+        choice4.setText("South");
+        choice4.addActionListener(SouthHandler);
+    }
     private void directionChoice() {
+
+        distance++;
         mainTextArea.setText("Which way do you go now brave fighter?");
         choice1.setText("Head West");
         choice1.addActionListener(WestHandler);
@@ -421,6 +343,12 @@ public class Game {
         choice3.addActionListener(NorthHandler);
         choice4.setText("South");
         choice4.addActionListener(SouthHandler);
+        /*try {
+            Thread.sleep(5000);
+        }catch (InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }*/
     }
 
     public class TitleScreenHandler implements ActionListener
@@ -481,27 +409,54 @@ public class Game {
         int damageTaken = rand.nextInt(enemyAttackDamage);      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
 
         enemyHealth -= damageDealt;
-        playerHealthValue -= damageTaken;
+        playerHealthValue -=  damageTaken;
 
-        secondaryTextArea.setText("\t> You strike the " + enemy + " for " + damageDealt + " damage.");
-        secondaryTextArea.setText("\t> You receive " + damageTaken  + " in retaliation!");
+            //THIS IS LOOPING until you die
+
+        secondaryTextArea.setText("You strike the " + enemy + " for " + damageDealt + " damage.");
+        secondaryTextArea.setText("You receive " + damageTaken  + " in retaliation!");
+        playerStatsSetup();
+        if (playerHealthValue<=0)
+        {
+            gameOver();
+        }
+
     }
     private void sneak() {
         distance++;
+        directionChoice();
     }
     private void heal() {
         if (numHealthPotions > 0) {
             playerHealthValue += healthPotionHealNum;
             numHealthPotions--;
-            mainTextArea.setText("\t> You drink a health potion healing yourself for " + healthPotionHealNum + ". "
-                    + "\n\t You now have " + playerHealthValue + " HP."
-                    + "\n\t> You have " + numHealthPotions + " health potions left. \n");
+            mainTextArea.setText("You drink a health potion healing yourself for " + healthPotionHealNum + ". "
+                    + "\nYou now have " + playerHealthValue + " HP."
+                    + "\nYou have " + numHealthPotions + " health potions left. \n");
         } else {
-            secondaryTextArea.setText("\t You have no health potions left! Defeat enemies to earn more!");
+            secondaryTextArea.setText(" You have no health potions left! Defeat enemies to earn more!");
         }
+        playerStatsSetup();
     }
     private void runAway() {
         distance=rand.nextInt(lostDistance);            //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-        secondaryTextArea.setText("\t You run away from the " + enemy + " in a state of fear! \n delirious from this you have lost your way!");
+        secondaryTextArea.setText(" You run away from the " + enemy + " in a state of fear! \n delirious from this you have lost your way!");
+        playerStatsSetup();
+    }
+    private void playerStatsSetup() {
+        WeaponLabel.setText(weapon);
+        HPLabelNumber.setText("" + playerHealthValue);
+    }
+
+    private void gameOver() {
+
+        mainTextArea.setText("You limp from the dungeon, exhausted and covered in blood." +
+                "\nThe bards will tell stories of your adventures!" +
+                "\nJust not very good ones. GAME OVER");
+        exitSystem();
+    }
+    private void exitSystem()
+    {
+        System.exit(0);
     }
 }
