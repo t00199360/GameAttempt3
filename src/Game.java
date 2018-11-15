@@ -459,7 +459,7 @@ public class Game {
 
     public class TitleScreenHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            AudioFilePlayer.playAudio("src/Megalovania.mp3");           ////referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
+            AudioFilePlayer.playAudio("src/intro.mp3");           ////referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
             createGameScreen();
         }
     }
