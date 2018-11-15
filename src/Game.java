@@ -40,7 +40,7 @@ public class Game {
     Random rand = new Random();     //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
 
     //Game Variables
-    String[] enemies = {/*"Skeleton", */"Zombie"/*, "Warrior", "Assassin", "Gremlin", "Dragon"*/};      //enemies will be picked at random from this array
+    String[] enemies = {"Skeleton", "Zombie", "Warrior", "Assassin", "Gremlin", "Dragon"};      //enemies will be picked at random from this array
     int maxEnemyHealth = 75;                                                                    //although enemy health will be picked at random, it must be lower or equal to this value
     int enemyAttackDamage = 25;                                                                 //although enemy damage will be generated at random, it cannot exceed this value
     int distance = 10;                                                                            //I plan on having the game stop after ten enemies with a "you found the treasure" message
@@ -490,9 +490,38 @@ public class Game {
 
     public class attackHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+
+            if (enemy.equals("Skeleton"))
+            {
+                AudioFilePlayer.playAudio("src/beep.mp3");
+            }
+            attack();
+            if (enemy.equals("Warrior"))
+            {
+                AudioFilePlayer.playAudio("src/Warrior.wav");
+            }
+            attack();
             if (enemy.equals("Zombie"))
             {
                 AudioFilePlayer.playAudio("src/Zombie.mp3");
+            }
+            attack();
+
+            if (enemy.equals("Assasin"))
+            {
+                AudioFilePlayer.playAudio("src/swordClash.wav");
+            }
+            attack();
+
+            if (enemy.equals("Dragon"))
+            {
+                AudioFilePlayer.playAudio("src/dragon.wav");
+            }
+            attack();
+
+            if (enemy.equals("Gremlin"))
+            {
+                AudioFilePlayer.playAudio("src/gunshot.wav");
             }
             attack();
         }
