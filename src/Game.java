@@ -238,14 +238,14 @@ public class Game {
         choice4.addActionListener(runAwayHandler);
         choice4.setText("Head back");
 
-        if (choice1.getModel().isPressed()) {
+       /* if (choice1.getModel().isPressed()) {
             attack();
         } else if (choice2.getModel().isPressed()) {
             heal();
         } else if (choice3.getModel().isPressed()) {
             runAway();
             //continue GAME;   <-- referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        }
+        }*/
     }
 
     private void West() {
@@ -273,9 +273,9 @@ public class Game {
 
         newAreaOptions();           //presents the new button text and handlers are removed and new ones are added to the buttons
 
-        if (enemyHealth <= 0) {
+        /*if (enemyHealth <= 0) {
             directionChoice();
-        }
+        }*/
 
     }
 
@@ -291,9 +291,9 @@ public class Game {
 
         newAreaOptions();
 
-        if (enemyHealth <= 0) {
+       /* if (enemyHealth <= 0) {
             directionChoice();
-        }
+        }*/
     }
 
     private void South() {
@@ -327,10 +327,10 @@ public class Game {
         choice4.addActionListener(SouthHandler);
     }
 
-    private void directionChoice() {
+    public void directionChoice() {
 
-        distance++;
-        /*if (distance == 15) {
+       /* distance++;
+        if (distance == 15) {
             win();
         }*/
         mainTextArea.setText("Which way do you go now brave fighter?");
@@ -377,6 +377,7 @@ public class Game {
         playerStatsSetup();         //this will update the top bar whenever you perform an attack
 
         if (enemyHealth <= 0) {
+
             //add code to implement Health Pot drop chance
             if (rand.nextInt(40) > healthPotionDropChance) {
                 numHealthPotions++;                                                                                         //code to have a chance at an enemy dropping a health potion
