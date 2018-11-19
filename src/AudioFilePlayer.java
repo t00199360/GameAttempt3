@@ -30,7 +30,7 @@ public class AudioFilePlayer extends JFrame implements ActionListener{
     //some sample audio files I have in a folder called audio that I sent with this Java file  - note that the "audio" folder
     //is assumed to be in the same folder as the bytecode AudioFilePlayer.class here so that relative file paths can be used
 
-    String audioFile1 = "src/megalovania.mp3", audioFile2 = "src/beep.mp3";
+    String audioFile1 = "src/megalovania.mp3";
 
     //Just a short sample driver for the AudioFilePlayer class to demonstrate how it can be used from other classes
 
