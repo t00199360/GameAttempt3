@@ -3,11 +3,13 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;                                  //imports
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class Game {
@@ -15,7 +17,7 @@ public class Game {
     JFrame DisplayWindow;                                                                                        //initialising the JFrame
     Container con;                                                                                               //just the container
     JPanel TitlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel, secondaryTextPanel;     //JPanels which define the area for a JLabel
-    JLabel TitleName, HPLabel, HPLabelNumber, WeaponLabel, WeaponLabelName;                                        //JLabels which are essentially containers for the text
+    JLabel TitleName, HPLabel, HPLabelNumber, WeaponLabel, WeaponLabelName,iconLabel;                                        //JLabels which are essentially containers for the text
     //font name,        font style   size
     Font TitleFont = new Font("Garamond", Font.PLAIN, 50);                                           //sets font
     //font name,        font style   size
@@ -25,7 +27,7 @@ public class Game {
 
     int i = 0;
     int x= 0;
-    String weapon = "fists";
+    String weapon = "Sword";
 
     TitleScreenHandler TSHandler = new TitleScreenHandler();//task handler for the title screen
     WestHandler WestHandler = new WestHandler();            //task handler for heading west
@@ -44,7 +46,7 @@ public class Game {
     String[] enemies = {"Skeleton", "Zombie", "Warrior", "Assassin", "Gremlin", "Dragon"};      //enemies will be picked at random from this array
     int maxEnemyHealth = 75;                                                                    //although enemy health will be picked at random, it must be lower or equal to this value
     int enemyAttackDamage = 25;                                                                 //although enemy damage will be generated at random, it cannot exceed this value
-    int distance = 10;                                                                            //I plan on having the game stop after ten enemies with a "you found the treasure" message
+    int distance = 0;                                                                            //I plan on having the game stop after ten enemies with a "you found the treasure" message
     int lostDistance = 9;
 
     //enemy variables
@@ -64,6 +66,8 @@ public class Game {
 
         JFXPanel fxPanel = new JFXPanel();          //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
         new Game();
+
+
     }       //calls the game method
 
 
@@ -71,10 +75,18 @@ public class Game {
         mainThread = Thread.currentThread();
         DisplayWindow = new JFrame();             //initialises the JFrame
         DisplayWindow.setSize(1200, 800);        //sets the size of the JFrame                                   learning of creating JFrames and having buttons in them referenced from https://www.youtube.com/watch?v=RcvABhflOkI
-        DisplayWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       //sets the close operation                          all of DisplayWindow is not mine, reference: https://www.youtube.com/watch?v=RcvABhflOkI
-        DisplayWindow.getContentPane().setBackground(Color.LIGHT_GRAY);      //sets the background color of the frame
-        DisplayWindow.setLayout(null);      //disable the layout for a custom layout
+        DisplayWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       //sets the close operation//                        all of DisplayWindow is not mine, reference: https://www.youtube.com/watch?v=RcvABhflOkI
+        try {
+            DisplayWindow.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("dungeonscene.jfif")))));    //sets the background color of the frame
+        }catch(IOException e)
+        {
+            System.out.println("image does not exist");
+            /*System.exit(0);*/
+        }
+
+            DisplayWindow.setLayout(null);      //disable the layout for a custom layout
         con = DisplayWindow.getContentPane();
+
 
         TitlePanel = new JPanel();              //initialises the JPanel
         TitlePanel.setBounds(200, 200, 800, 350);  //x-axis:100,y-axis:100,width and height of "text box"          This line is also taken from: https://www.youtube.com/watch?v=RcvABhflOkI
@@ -134,6 +146,8 @@ public class Game {
         secondaryTextPanel.add(secondaryTextArea);        //adds the text area to the panel
         secondaryTextArea.setEditable(false);
 
+
+
         //this panel is the container for the possible actions the player can take in the game
         choiceButtonPanel = new JPanel();       //creates a new JPanel
         choiceButtonPanel.setBounds(400, 550, 300, 150);       //see comment line 62
@@ -174,7 +188,7 @@ public class Game {
 
         //creates and sets the values for the Players stats
         playerPanel = new JPanel();
-        playerPanel.setBounds(300, 15, 600, 50);
+        playerPanel.setBounds(300, 50, 600, 50);
         playerPanel.setBackground(Color.LIGHT_GRAY);
         playerPanel.setLayout(new GridLayout(1, 4));
         con.add(playerPanel);
@@ -185,6 +199,11 @@ public class Game {
         HPLabel.setForeground(Color.decode("#006600"));                     //color.decode was referenced from https://stackoverflow.com/questions/25837449/setbackgroundcolor-with-hex-color-codes-androidstudio
         playerPanel.add(HPLabel);
 
+     /*   //trying to make an image appear in the background
+        iconLabel = new JLabel(icon);
+        DisplayWindow.add(iconLabel);
+        iconLabel.setVisible(true);
+*/
         //this will display the variable for health
         HPLabelNumber = new JLabel();
         HPLabelNumber.setFont(normalFont);
@@ -211,6 +230,7 @@ public class Game {
 
 
     private void dungeonStart() {
+
 
         System.out.println("You have reached the dungeon start P3");
 
@@ -349,12 +369,26 @@ public class Game {
 
     }
 
+    public void setWinText()
+    {       //i want to make a new frame appear here or at least a new panel
+        JOptionPane.showMessageDialog(null,"After battling long and hard with skeletons, dragons and the like" +
+                "\nyou reach the end of the dungeon."+
+                "\nFull of excitement you open the dusty treasure chest"+
+                "\nIt's filled with a wealth of jewels and gold coins."+
+                "\nGAME OVER");
+    }
     public void directionChoice() {
 System.out.println("You have reached DirectionChoice");
-       /* distance++;
-        if (distance == 15) {
+
+        if (distance == 10) {
+            setWinText();
+            mainTextArea.setText("After battling long and hard with skeletons, dragons and the like\n" +
+                    "you reach the end of the dungeon. \n" +
+                    "Full of excitement you open the dusty treasure chest \n" +
+                    "It's filled with a wealth of jewels and gold coins." +
+                    "\nGAME OVER");
             win();
-        }*/
+        }
         mainTextArea.setText("Which way do you go now brave fighter?");
         choice1.setText("Head West");
         choice1.removeActionListener(attackHandler);
@@ -372,24 +406,14 @@ System.out.println("You have reached DirectionChoice");
     }
 
     private void win() {
-        mainTextArea.setText("After battling long and hard with skeletons, dragons and the like\n" +
-                "you reach the end of the dungeon. \n" +
-                "Full of excitement you open the dusty treasure chest \n" +
-                "It's filled with a wealth of jewels and gold coins." +
-                "\nGAME OVER");
-        exitSystem();
+        mainTextPanel.setVisible(false);
         secondaryTextArea.setVisible(false);
+        choiceButtonPanel.setVisible(false);
+        MyWinTimerListener m = new MyWinTimerListener();
+        Timer win = new Timer(5000, m);                //<-- code supplied by John Brosnan to replace the ineffective thread.Sleep
+        win.start();
     }
 
-    private void attack() {
-
-        while (i==0) {
-            System.out.println("You have reached the attack method P6.1");
-             newAreaOptions();
-             hit();
-            i++;
-        }
-    }
 
 
 
@@ -407,10 +431,11 @@ System.out.println("You have reached DirectionChoice");
 
             secondaryTextArea.setText("You strike the " + enemy + " for " + damageDealt + " damage. \nYou receive " + damageTaken + " in retaliation!");
             enemyHealth -= damageDealt;
-
+            x++;
 
             if (enemyHealth > 0) {          //this should make it so if you kill the enemy it cant hit you in retaliation. Dead things should'nt be able to hit you
                 playerHealthValue -= damageTaken;
+
             }
         if (enemyHealth <= 0) {
             enemyDefeated();
@@ -429,8 +454,10 @@ System.out.println("You have reached DirectionChoice");
 
   //  }
     private void enemyDefeated() {
+        distance++;
         System.out.println("You have reached the enemydefeated method P7");
 
+        String enemy = enemies[rand.nextInt(enemies.length)];       //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         enemyHealth = rand.nextInt(maxEnemyHealth);             //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         JOptionPane.showMessageDialog(null, enemy + " has been defeated!");
         directionChoice();
@@ -503,6 +530,11 @@ System.out.println("You have reached DirectionChoice");
 
     //ActionListener section:
 
+    private class MyWinTimerListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            exitSystem();
+        }
+    }
     private class MyTimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             exitSystem();
