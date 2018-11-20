@@ -395,7 +395,8 @@ System.out.println("You have reached DirectionChoice");
 
     private void hit()
     {
-
+        System.out.println("you are in the hit method");
+    x=0;
         while (x == 0)
         {
             System.out.println("You have reached the hit method PAfterAttack");
@@ -413,6 +414,7 @@ System.out.println("You have reached DirectionChoice");
             }
         if (enemyHealth <= 0) {
             enemyDefeated();
+            x++;
         }
             if (playerHealthValue <= 0) {
                 gameOver();
@@ -421,9 +423,7 @@ System.out.println("You have reached DirectionChoice");
 
             }
             playerStatsSetup();
-/*
-        directionChoice();
-*/      x++;
+
         }
     }
 
@@ -568,7 +568,7 @@ System.out.println("You have reached DirectionChoice");
             {
                 AudioFilePlayer.playAudio("src/gunshot.wav");
             }
-            attack();
+            hit();
         }
     }
 
