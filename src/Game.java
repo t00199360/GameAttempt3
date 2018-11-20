@@ -23,7 +23,8 @@ public class Game {
     JButton startButton, choice1, choice2, choice3, choice4;                                                    //JButton initialisation
     JTextArea mainTextArea, secondaryTextArea;                                                                  //textArea initialisation
 
-
+    int i = 0;
+    int x= 0;
     String weapon = "fists";
 
     TitleScreenHandler TSHandler = new TitleScreenHandler();//task handler for the title screen
@@ -223,6 +224,7 @@ public class Game {
     }
 
     private void newAreaOptions() {
+        System.out.println("Youve reached the newAreaOptions");
 
         choice1.removeActionListener(WestHandler);
         choice1.addActionListener(attackHandler);
@@ -348,7 +350,7 @@ public class Game {
     }
 
     public void directionChoice() {
-
+System.out.println("You have reached DirectionChoice");
        /* distance++;
         if (distance == 15) {
             win();
@@ -379,45 +381,53 @@ public class Game {
         secondaryTextArea.setVisible(false);
     }
 
-
     private void attack() {
-        System.out.println("You have reached the attack method P6.1");
 
-        hit();
-        playerStatsSetup();         //this will update the top bar whenever you perform an attack
+        while (i==0) {
+            System.out.println("You have reached the attack method P6.1");
+             newAreaOptions();
+             hit();
+            i++;
         }
+    }
 
 
 
+    private void hit()
+    {
 
-    private void hit() {
-        System.out.println("You have reached the hit method PAfterAttack");
+        while (x == 0)
+        {
+            System.out.println("You have reached the hit method PAfterAttack");
+            playerStatsSetup();
+            int damageDealt = rand.nextInt(attackDamage);           //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
 
-        int damageDealt = rand.nextInt(attackDamage);           //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
+            int damageTaken = rand.nextInt(enemyAttackDamage);      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
 
-        int damageTaken = rand.nextInt(enemyAttackDamage);      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
-        while (!(enemyHealth <= 0) && !(playerHealthValue <=0)) {
-        secondaryTextArea.setText("You strike the " + enemy + " for " + damageDealt + " damage. \nYou receive " + damageTaken + " in retaliation!");
-        enemyHealth -= damageDealt;
+            secondaryTextArea.setText("You strike the " + enemy + " for " + damageDealt + " damage. \nYou receive " + damageTaken + " in retaliation!");
+            enemyHealth -= damageDealt;
 
 
-
-        if (enemyHealth > 0) {          //this should make it so if you kill the enemy it cant hit you in retaliation. Dead things should'nt be able to hit you
-            playerHealthValue -= damageTaken;
-        }
+            if (enemyHealth > 0) {          //this should make it so if you kill the enemy it cant hit you in retaliation. Dead things should'nt be able to hit you
+                playerHealthValue -= damageTaken;
+            }
         if (enemyHealth <= 0) {
             enemyDefeated();
         }
-        if (playerHealthValue <= 0) {
-            gameOver();
-            playerPanel.setVisible(false);
-            choiceButtonPanel.setVisible(false);
+            if (playerHealthValue <= 0) {
+                gameOver();
+                playerPanel.setVisible(false);
+                choiceButtonPanel.setVisible(false);
 
-        }
+            }
+            playerStatsSetup();
+/*
         directionChoice();
+*/      x++;
+        }
     }
-    }
+
+  //  }
     private void enemyDefeated() {
         System.out.println("You have reached the enemydefeated method P7");
 
@@ -532,35 +542,28 @@ public class Game {
 
     public class attackHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            System.out.println("you are in the attackHandler");
 
             if (enemy.equals("Skeleton"))
             {
                 AudioFilePlayer.playAudio("src/beep.mp3");
             }
-            attack();
             if (enemy.equals("Warrior"))
             {
                 AudioFilePlayer.playAudio("src/Warrior.wav");
             }
-            attack();
             if (enemy.equals("Zombie"))
             {
                 AudioFilePlayer.playAudio("src/Zombie.mp3");
             }
-            attack();
-
             if (enemy.equals("Assasin"))
             {
                 AudioFilePlayer.playAudio("src/swordClash.wav");
             }
-            attack();
-
             if (enemy.equals("Dragon"))
             {
                 AudioFilePlayer.playAudio("src/dragon.wav");
             }
-            attack();
-
             if (enemy.equals("Gremlin"))
             {
                 AudioFilePlayer.playAudio("src/gunshot.wav");
