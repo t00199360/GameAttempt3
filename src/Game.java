@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;                                  //imports
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
 
@@ -25,9 +27,10 @@ public class Game {
     JButton startButton, choice1, choice2, choice3, choice4;                                                    //JButton initialisation
     JTextArea mainTextArea, secondaryTextArea;                                                                  //textArea initialisation
 
-    int i = 0;
     int x= 0;
     String weapon = "Sword";
+
+    //BufferedImage background;
 
     TitleScreenHandler TSHandler = new TitleScreenHandler();//task handler for the title screen
     WestHandler WestHandler = new WestHandler();            //task handler for heading west
@@ -65,27 +68,41 @@ public class Game {
     public static void main(String[] args) {
 
         JFXPanel fxPanel = new JFXPanel();          //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
-        new Game();
+        new Game();             //calls the game method
 
 
-    }       //calls the game method
+    }
 
 
-    private Game() {
+    private Game ()  {
         mainThread = Thread.currentThread();
         DisplayWindow = new JFrame();             //initialises the JFrame
         DisplayWindow.setSize(1200, 800);        //sets the size of the JFrame                                   learning of creating JFrames and having buttons in them referenced from https://www.youtube.com/watch?v=RcvABhflOkI
         DisplayWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       //sets the close operation//                        all of DisplayWindow is not mine, reference: https://www.youtube.com/watch?v=RcvABhflOkI
+        DisplayWindow.setLayout(new FlowLayout());
+
         try {
-            DisplayWindow.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("dungeonscene.jfif")))));    //sets the background color of the frame
-        }catch(IOException e)
+
+            BufferedImage image = ImageIO.read(new File("C://Users//t00199360//IdeaProjects//GameAttempt3//src//archydungeon.jpg"));
+            DisplayWindow.setContentPane(new JLabel(new ImageIcon(image)));
+
+        }catch(FileNotFoundException e)
+        {
+            System.out.println("File does not exist");
+            /*System.exit(0);*/
+        }
+        catch(IOException e)
         {
             System.out.println("image does not exist");
             /*System.exit(0);*/
         }
 
-            DisplayWindow.setLayout(null);      //disable the layout for a custom layout
+        //DisplayWindow.setLayout(null);
+                  //disable the layout for a custom layout
+
+
         con = DisplayWindow.getContentPane();
+
 
 
         TitlePanel = new JPanel();              //initialises the JPanel
@@ -110,7 +127,16 @@ public class Game {
         startButtonPanel.add(startButton);  //adds the button to the panel
         con.add(TitlePanel);    //adding the panel to the Frame
         con.add(startButtonPanel);  //adds the panel to the frame
+
         DisplayWindow.setVisible(true);     //sets the window to visible/appear
+
+        /*public void paintComponent(Graphics g)
+        {
+
+        }*/
+
+   /* public void paintComponent(){*/
+
     }
 
     private void createGameScreen() {
@@ -504,6 +530,22 @@ System.out.println("You have reached DirectionChoice");
         System.out.println("You have reached the player stats setup P2");
         WeaponLabel.setText(weapon);
         HPLabelNumber.setText("" + playerHealthValue);
+    }
+
+    class ImagePanel extends JComponent {
+        public Image background;
+        public ImagePanel(Image background) {
+            this.background = background;
+        }
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(background,0,0,this);
+        }
+
+        public void setBackground(Image background) {
+            this.background = background;
+        }
     }
 
     //game over screen
