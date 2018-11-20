@@ -203,12 +203,15 @@ public class Game {
         playerPanel.add(WeaponLabelName);
         playerPanel.add(WeaponLabel);
 
+        System.out.println("You have reached the end of the game setup P1");
         playerStatsSetup();
         dungeonStart();
     }
 
 
     private void dungeonStart() {
+
+        System.out.println("You have reached the dungeon start P3");
 
         firstDirectionChoice();
        /* try {
@@ -249,6 +252,8 @@ public class Game {
     }
 
     private void West() {
+        System.out.println("You have reached the direction P5.1");
+
         //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
         // randomiseEnemy();
         //randomiseEnemyHealth();
@@ -261,8 +266,18 @@ public class Game {
 
         newAreaOptions();           //presents the new button text and handlers are removed and new ones are added to the buttons
     }
+    /*private void AfterAction() {
+        while (!(enemyHealth <= 0) && !(playerHealthValue <=0)) {
+            mainTextArea.setText("What now?");
+
+            secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
+
+                    + "enemies HP: " + enemyHealth);
+        }
+    }*/
 
     private void East() { //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
+        System.out.println("You have reached the direction P5.2");
 
 
         mainTextArea.setText("After proceeding East you encounter a(n) " + "\n" + enemy +
@@ -281,6 +296,7 @@ public class Game {
 
     private void North() {
         //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
+        System.out.println("You have reached the direction P5.3");
 
 
         mainTextArea.setText("After proceeding North you encounter a(n) " + "\n" + enemy +
@@ -298,6 +314,7 @@ public class Game {
 
     private void South() {
         //GAME:       referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
+        System.out.println("You have reached the direction P5.4");
 
 
         mainTextArea.setText("After proceeding South you encounter a(n) " + "\n" + enemy +
@@ -315,6 +332,8 @@ public class Game {
     }
 
     private void firstDirectionChoice() {
+        System.out.println("You have reached the first direction P4");
+
         mainTextArea.setText("You are about to enter the fabled Dungeons Of   Fortuna. \nMany men have fallen while attempting this" +
                 "\narduous task. Proceed at your own risk. \nThere are four possible ways to proceed:");
         choice1.setText("Head West");
@@ -323,8 +342,9 @@ public class Game {
         choice2.addActionListener(EastHandler);             //put this in a victory method
         choice3.setText("Head North");
         choice3.addActionListener(NorthHandler);
-        choice4.setText("South");
+        choice4.setText("Head South");
         choice4.addActionListener(SouthHandler);
+
     }
 
     public void directionChoice() {
@@ -361,52 +381,67 @@ public class Game {
 
 
     private void attack() {
+        System.out.println("You have reached the attack method P6.1");
+
+        hit();
+        playerStatsSetup();         //this will update the top bar whenever you perform an attack
+        }
+
+
+
+
+    private void hit() {
+        System.out.println("You have reached the hit method PAfterAttack");
 
         int damageDealt = rand.nextInt(attackDamage);           //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
 
         int damageTaken = rand.nextInt(enemyAttackDamage);      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
 
-
+        while (!(enemyHealth <= 0) && !(playerHealthValue <=0)) {
         secondaryTextArea.setText("You strike the " + enemy + " for " + damageDealt + " damage. \nYou receive " + damageTaken + " in retaliation!");
         enemyHealth -= damageDealt;
+
+
 
         if (enemyHealth > 0) {          //this should make it so if you kill the enemy it cant hit you in retaliation. Dead things should'nt be able to hit you
             playerHealthValue -= damageTaken;
         }
-
-        playerStatsSetup();         //this will update the top bar whenever you perform an attack
-
         if (enemyHealth <= 0) {
-
-            //add code to implement Health Pot drop chance
-            if (rand.nextInt(40) > healthPotionDropChance) {
-                numHealthPotions++;                                                                                         //code to have a chance at an enemy dropping a health potion
-                mainTextArea.setText(" #  The " + enemy + " dropped a health potion!  # ");
-                secondaryTextArea.setText(" #  You now have " + numHealthPotions + " health potion(s).  # ");
-            }
-            JOptionPane.showMessageDialog(null, enemy + " has been defeated!");
             enemyDefeated();
         }
         if (playerHealthValue <= 0) {
             gameOver();
             playerPanel.setVisible(false);
             choiceButtonPanel.setVisible(false);
+
         }
-
-    }
-
-    private void enemyDefeated() {
-        enemyHealth = rand.nextInt(maxEnemyHealth);             //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-
         directionChoice();
+    }
+    }
+    private void enemyDefeated() {
+        System.out.println("You have reached the enemydefeated method P7");
+
+        enemyHealth = rand.nextInt(maxEnemyHealth);             //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
+        JOptionPane.showMessageDialog(null, enemy + " has been defeated!");
+        directionChoice();
+
+        if (rand.nextInt(40) > healthPotionDropChance) {
+            numHealthPotions++;                                                                                         //code to have a chance at an enemy dropping a health potion
+            mainTextArea.setText(" #  The " + enemy + " dropped a health potion!  # ");
+            secondaryTextArea.setText(" #  You now have " + numHealthPotions + " health potion(s).  # ");
+        }
     }
 
     private void sneak() {
+        System.out.println("You have reached the sneak method P6.2");
+
         distance++;
         directionChoice();
     }
 
     private void heal() {
+        System.out.println("You have reached the heal method P6.3");
+
         if (numHealthPotions > 0) {
             playerHealthValue += healthPotionHealNum;
             numHealthPotions--;
@@ -420,6 +455,8 @@ public class Game {
     }
 
     private void runAway() {
+        System.out.println("You have reached the run away method P6.4");
+
         distance = rand.nextInt(lostDistance);            //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         secondaryTextArea.setText(" You run away from the " + enemy + " in a state of fear! \n delirious from this you have lost your way!");
         playerStatsSetup();
@@ -427,12 +464,14 @@ public class Game {
 
     //populates and repopulates the player stats that appear at the top of the screen
     private void playerStatsSetup() {
+        System.out.println("You have reached the player stats setup P2");
         WeaponLabel.setText(weapon);
         HPLabelNumber.setText("" + playerHealthValue);
     }
 
     //game over screen
     private void gameOver() {
+        System.out.println("You have reached the gameover method P.END");
 
         MyTimerListener m = new MyTimerListener();
         Timer t = new Timer(5000, m);                //<-- code supplied by John Brosnan to replace the ineffective thread.Sleep
@@ -446,6 +485,8 @@ public class Game {
 
     //method to specifically exit the system
     private void exitSystem() {
+        System.out.println("You have reached the exit system method P.END");
+
         System.exit(0);
     }
 
