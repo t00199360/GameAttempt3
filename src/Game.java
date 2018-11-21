@@ -62,6 +62,7 @@ public class Game {
     int healthPotionHealNum = 30;       //amount by which the health potion heals
     int healthPotionDropChance = 25;      //percentage chance of a potion dropped when an enemy is killed
     int playerHealthValue = 100;
+    String playerName = " ";
     Thread mainThread;
 
 
