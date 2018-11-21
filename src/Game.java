@@ -83,7 +83,7 @@ public class Game {
 
         try {
 
-            BufferedImage image = ImageIO.read(new File("C://Users//t00199360//IdeaProjects//GameAttempt3//src//archydungeon.jpg"));            //put all resources in a resource folder
+            BufferedImage image = ImageIO.read(new File("src//Resources//archydungeon.jpg"));            //put all resources in a resource folder
             DisplayWindow.setContentPane(new JLabel(new ImageIcon(image)));             //referenced from stackoverflow
 
         }catch(FileNotFoundException e)
@@ -287,7 +287,7 @@ public class Game {
 
     private void West() {
         System.out.println("You have reached the direction P5.1");
-        AudioFilePlayer.playAudio("src/intro.mp3");                                        //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
+        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                        //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
         //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
 
 
@@ -301,7 +301,7 @@ public class Game {
     }
 
     private void East() {
-        AudioFilePlayer.playAudio("src/intro.mp3");                                       //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
+        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                       //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
         //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
         System.out.println("You have reached the direction P5.2");                              //debug code
 
@@ -317,7 +317,7 @@ public class Game {
     }
 
     private void North() {
-        AudioFilePlayer.playAudio("src/intro.mp3");                                         //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
+        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                         //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
         //GAME:                                                                                   referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
         System.out.println("You have reached the direction P5.3");                                //debug code
 
@@ -333,7 +333,7 @@ public class Game {
     }
 
     private void South() {
-        AudioFilePlayer.playAudio("src/intro.mp3");                                        //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
+        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                        //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
         //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
         System.out.println("You have reached the direction P5.4");                              //debug code
 
@@ -589,27 +589,27 @@ System.out.println("You have reached DirectionChoice");
 
             if (enemy.equals("Skeleton"))
             {
-                AudioFilePlayer.playAudio("src/beep.mp3");              //plays sounds when that kind of enemy is encountered. A lot of these are placeholders and need to be replaced
+                AudioFilePlayer.playAudio("src/Resources/SpookyScarySkeletons.wav");              //plays sounds when that kind of enemy is encountered. A lot of these are placeholders and need to be replaced
             }
             if (enemy.equals("Warrior"))
             {
-                AudioFilePlayer.playAudio("src/Warrior.wav");
+                AudioFilePlayer.playAudio("src/Resources/Warrior.wav");
             }
             if (enemy.equals("Zombie"))
             {
-                AudioFilePlayer.playAudio("src/Zombie.mp3");
+                AudioFilePlayer.playAudio("src/Resources/Zombie.mp3");
             }
-            if (enemy.equals("Assasin"))
+            if (enemy.equals("Assassin"))
             {
-                AudioFilePlayer.playAudio("src/swordClash.wav");
+                AudioFilePlayer.playAudio("src/Resources/swordfight.wav");
             }
             if (enemy.equals("Dragon"))
             {
-                AudioFilePlayer.playAudio("src/dragon.wav");
+                AudioFilePlayer.playAudio("src/Resources/dragon.wav");
             }
             if (enemy.equals("Gremlin"))
             {
-                AudioFilePlayer.playAudio("src/gunshot.wav");
+                AudioFilePlayer.playAudio("src/Resources/GremlinNoise.mp3");
             }
             hit();
         }
