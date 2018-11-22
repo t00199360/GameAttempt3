@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Game {
 
@@ -62,12 +63,13 @@ public class Game {
     int healthPotionHealNum = 30;       //amount by which the health potion heals
     int healthPotionDropChance = 25;      //percentage chance of a potion dropped when an enemy is killed
     int playerHealthValue = 100;
-    String playerName = " ";
     Thread mainThread;
+    private Scanner in;
 
 
     public static void main(String[] args) {
-
+        createPlayer.openFile();
+        createPlayer.readFile();
         JFXPanel fxPanel = new JFXPanel();          //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
         new Game();             //calls the game method
 
@@ -76,6 +78,7 @@ public class Game {
 
 
     private Game ()  {
+
         mainThread = Thread.currentThread();            //initialises the thread
         DisplayWindow = new JFrame();             //initialises the JFrame
         DisplayWindow.setSize(1200, 800);        //sets the size of the JFrame                                   learning of creating JFrames and having buttons in them referenced from https://www.youtube.com/watch?v=RcvABhflOkI
@@ -285,6 +288,7 @@ public class Game {
         choice4.setText("Head back");
 
     }
+
 
     private void West() {
         System.out.println("You have reached the direction P5.1");
@@ -594,7 +598,7 @@ System.out.println("You have reached DirectionChoice");
             }
             if (enemy.equals("Warrior"))
             {
-                AudioFilePlayer.playAudio("src/Resources/Warrior.wav");
+                AudioFilePlayer.playAudio("src/Resources/Warrior.wav");                 //audioFilePlayer is referenced from John Brosnan
             }
             if (enemy.equals("Zombie"))
             {
