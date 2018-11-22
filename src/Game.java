@@ -23,7 +23,11 @@ public class Game {
     Font TitleFont = new Font("Garamond", Font.PLAIN, 50);                                           //sets font
     //font name,        font style   size
     Font normalFont = new Font("Garamond", Font.PLAIN, 30);                                          //sets font
-    JButton startButton, choice1, choice2, choice3, choice4;                                                    //JButton initialisation
+    JButton startButton;
+    static JButton choice1;
+    static JButton choice2;
+    static JButton choice3;
+    static JButton choice4;                                                    //JButton initialisation
     JTextArea mainTextArea, secondaryTextArea;                                                                  //textArea initialisation
 
     int x= 0;
@@ -64,6 +68,7 @@ public class Game {
     Thread mainThread;
     private Scanner in;
 
+    private Direction DirectionObject = new Direction();
 
     public static void main(String[] args) {
         createPlayer.openFile();
@@ -75,7 +80,7 @@ public class Game {
     }
 
 
-    private Game ()  {
+    public Game()  {
 
         mainThread = Thread.currentThread();            //initialises the thread
         DisplayWindow = new JFrame();             //initialises the JFrame
@@ -134,7 +139,7 @@ public class Game {
         /*public void paintComponent(Graphics g)
         {
 
-        }*/
+        }*/                         //tried to make this work but it would've required way too much restructuring
 
    /* public void paintComponent(){*/
 
@@ -247,7 +252,7 @@ public class Game {
 
         System.out.println("You have reached the end of the game setup P1");                    //debug code
         playerStatsSetup();                                                                     //calls the player stats setup method
-        dungeonStart();                                                                         //calls the dungeon start method
+        dungeonStart();                                                                        //calls the dungeon start method
     }
 
 
@@ -265,7 +270,7 @@ public class Game {
         }*/
     }
 
-    private void newAreaOptions() {
+    protected void newAreaOptions() {
         System.out.println("You've reached the newAreaOptions");            //debug code
 
         choice1.removeActionListener(WestHandler);                          //each section here removes the previous action listeners and adds the new relevant ones
@@ -288,67 +293,13 @@ public class Game {
     }
 
 
-    private void West() {
-        System.out.println("You have reached the direction P5.1");
-        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                        //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
+    private void directionBase() {
+        System.out.println("You have reached the direction P5.1");                              //debug code
         //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-
-
-        mainTextArea.setText("After proceeding west you encounter a(n) " + "\n" + enemy +
-                ". What would you like to do?");                                                //sets main text
-
+        mainTextArea.setText("After proceeding" + DirectionObject.getDirection() + " you encounter a(n) " + "\n" + enemy +
+                ". What would you like to do?");
         secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
-                + "enemies HP: " + enemyHealth);                                                //sets secondary text
-
-        newAreaOptions();           //presents the new button text and handlers are removed and new ones are added to the buttons
-    }
-
-    private void East() {
-        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                       //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
-        //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        System.out.println("You have reached the direction P5.2");                              //debug code
-
-
-        mainTextArea.setText("After proceeding East you encounter a(n) " + "\n" + enemy +       //sets main text
-                ". What would you like to do?");
-
-        secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
-                + enemy + "'s HP: " + enemyHealth);                                             //sets secondary text
-
-        newAreaOptions();           //presents the new button text and handlers are removed and new ones are added to the buttons
-
-    }
-
-    private void North() {
-        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                         //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
-        //GAME:                                                                                   referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        System.out.println("You have reached the direction P5.3");                                //debug code
-
-
-        mainTextArea.setText("After proceeding North you encounter a(n) " + "\n" + enemy +        //sets main text
-                ". What would you like to do?");
-
-        secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "                      //sets secondary text
-                + enemy + "'s HP: " + enemyHealth);
-
-        newAreaOptions();
-
-    }
-
-    private void South() {
-        AudioFilePlayer.playAudio("src//Resources//Fight.wav");                                        //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
-        //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
-        System.out.println("You have reached the direction P5.4");                              //debug code
-
-
-        mainTextArea.setText("After proceeding South you encounter a(n) " + "\n" + enemy +      //sets main text
-                ". What would you like to do?");
-
-        secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "                    //sets secondary text
-                + enemy + "'s HP: " + enemyHealth);
-
-        newAreaOptions();
-
+                + "enemies HP: " + enemyHealth);
     }
 
     private void firstDirectionChoice() {
@@ -564,25 +515,36 @@ System.out.println("You have reached DirectionChoice");
 
     public class WestHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            West();
+            Direction.GO(" West");
+            directionBase();
+            newAreaOptions();
+
         }
     }
 
     public class EastHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            East();
+            Direction.GO(" East");
+            directionBase();
+            newAreaOptions();
         }
     }
 
     public class SouthHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            South();
+            Direction.GO(" South");
+            directionBase();
+            newAreaOptions();
+
         }
     }
 
     public class NorthHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            North();
+            Direction.GO(" North");
+            directionBase();
+            newAreaOptions();
+
         }
     }
 
