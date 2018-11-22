@@ -1,7 +1,5 @@
 //Liam Dowling T00199360
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
