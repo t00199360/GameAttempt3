@@ -18,7 +18,7 @@ public class Game {
     JFrame DisplayWindow;                                                                                        //initialising the JFrame
     Container con;                                                                                               //just the container
     JPanel TitlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel, secondaryTextPanel;     //JPanels which define the area for a JLabel
-    JLabel TitleName, HPLabel, HPLabelNumber, WeaponLabel, WeaponLabelName,iconLabel;                                        //JLabels which are essentially containers for the text
+    JLabel TitleName, HPLabel, HPLabelNumber, WeaponLabel, WeaponLabelName;                                        //JLabels which are essentially containers for the text
     //font name,        font style   size
     Font TitleFont = new Font("Garamond", Font.PLAIN, 50);                                           //sets font
     //font name,        font style   size
