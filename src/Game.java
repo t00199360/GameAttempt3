@@ -273,6 +273,7 @@ public class Game {
     protected void newAreaOptions() {
         System.out.println("You've reached the newAreaOptions");            //debug code
 
+
         choice1.removeActionListener(WestHandler);                          //each section here removes the previous action listeners and adds the new relevant ones
         choice1.addActionListener(attackHandler);
         choice1.setText("Attack enemy");
@@ -289,7 +290,6 @@ public class Game {
         choice4.removeActionListener(SouthHandler);
         choice4.addActionListener(runAwayHandler);                             //each section here removes the previous action listeners and adds the new relevant ones
         choice4.setText("Head back");
-
     }
 
 
@@ -348,7 +348,7 @@ System.out.println("You have reached DirectionChoice");
         choice3.setText("Head North");
         choice3.removeActionListener(sneakHandler);
         choice3.addActionListener(NorthHandler);
-        choice4.setText("South");
+        choice4.setText("Head South");
         choice4.removeActionListener(runAwayHandler);
         choice4.addActionListener(SouthHandler);
         secondaryTextArea.setText(" ");
@@ -456,22 +456,6 @@ System.out.println("You have reached DirectionChoice");
         WeaponLabel.setText(weapon);
         HPLabelNumber.setText("" + playerHealthValue);
     }
-
-   /* class ImagePanel extends JComponent {
-        public Image background;
-        public ImagePanel(Image background) {
-            this.background = background;
-        }                                                                       //I don't need this but leaving it as proof of work and it took ages.
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(background,0,0,this);
-        }
-
-        public void setBackground(Image background) {
-            this.background = background;
-        }
-    }*/
 
     //game over screen
     private void gameOver() {
