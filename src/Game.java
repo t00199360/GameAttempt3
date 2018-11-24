@@ -83,7 +83,6 @@ public class Game {
     int healthPotionDropChance = 25;      //percentage chance of a potion dropped when an enemy is killed
     int playerHealthValue = 100;
     Thread mainThread;
-    private Scanner in;
 
     private Direction DirectionObject = new Direction();
 
