@@ -13,8 +13,25 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
+
+/**
+ * <h1>Dungeons Of Fortuna</h1>
+ * <p>
+ * The Game.java program is a text based game that the player must fight or sneak past a group of enemies to win
+ * <br>
+ * This program was written as part of my OOP project in 2nd Year<br>
+ * <b>Note:</b> This code may contain methods that do not work as intended.
+ *
+ * @author Liam Dowling
+ * @since 2018-11-24
+ * @version 1.3
+ */
 public class Game {
 
+    /**
+     * This method is used to declare global variables and
+     * define variables relating to the enemies and player
+     */
     JFrame DisplayWindow;                                                                                        //initialising the JFrame
     Container con;                                                                                               //just the container
     JPanel TitlePanel, startButtonPanel, mainTextPanel, choiceButtonPanel, playerPanel, secondaryTextPanel;     //JPanels which define the area for a JLabel
@@ -70,6 +87,10 @@ public class Game {
 
     private Direction DirectionObject = new Direction();
 
+    /**
+     * Just the main method to run the game and take in the users details
+     * @param args - does nothing
+     */
     public static void main(String[] args) {
         createPlayer.openFile();
         createPlayer.readFile();
@@ -79,6 +100,9 @@ public class Game {
 
     }
 
+    /**
+     * Simply declares a lot of the values relating to the frames and threads etc
+     */
 
     public Game()  {
 
@@ -91,7 +115,7 @@ public class Game {
         try {
 
             BufferedImage image = ImageIO.read(new File("src//Resources//archydungeon.jpg"));            //put all resources in a resource folder
-            DisplayWindow.setContentPane(new JLabel(new ImageIcon(image)));             //referenced from stackoverflow
+            DisplayWindow.setContentPane(new JLabel(new ImageIcon(image)));                                 //referenced from stackoverflow
 
         }catch(FileNotFoundException e)
         {
@@ -145,6 +169,11 @@ public class Game {
 
     }
 
+    /**
+     * This method is what makes the "game" display on the JFrame.<br>
+     * It sets panels and labels to be visible.<br>
+     * It also assigns the colors and fonts etc to the backgrounds and text.
+     */
     private void createGameScreen() {
         TitlePanel.setVisible(false);                                       //hides the title panel
         startButtonPanel.setVisible(false);                                 //hides the start button panel
@@ -255,21 +284,28 @@ public class Game {
         dungeonStart();                                                                        //calls the dungeon start method
     }
 
-
+    /**
+     * This method simply calls the firstDirectionChoice() method
+     */
     private void dungeonStart() {
 
 
         System.out.println("You have reached the dungeon start P3");        //debug code
 
         firstDirectionChoice();                                             //calls the first direction choice method
-       /* try {
-            Thread.sleep(5000);                                     trying to make the code wait before it overwrites the mainTextAreas content
-        }catch (InterruptedException ex)                            the try catch part was referenced from stack overflow but the Thread.Sleep was my own i just didn't know i needed a try catch for it
-        {
-            Thread.currentThread().interrupt();
-        }*/
     }
 
+    /**
+     * This method removes and adds the relevant eventHandlers to the buttons.
+     * @see WestHandler
+     * @see attackHandler
+     * @see EastHandler
+     * @see drinkPotHandler
+     * @see NorthHandler
+     * @see sneakHandler
+     * @see SouthHandler
+     * @see runAwayHandler
+     */
     protected void newAreaOptions() {
         System.out.println("You've reached the newAreaOptions");            //debug code
 
@@ -284,14 +320,18 @@ public class Game {
 
         choice3.removeActionListener(NorthHandler);                           //each section here removes the previous action listeners and adds the new relevant ones
         choice3.addActionListener(sneakHandler);
-        choice3.setText("Sneak past it");
+        choice3.setText("Sneak past");
 
 
         choice4.removeActionListener(SouthHandler);
         choice4.addActionListener(runAwayHandler);                             //each section here removes the previous action listeners and adds the new relevant ones
-        choice4.setText("Head back");
+        choice4.setText("Run Away");
     }
 
+    /**
+     * This method is the basic text for after choosing what direction you want to go<br>
+     * The Direction.java passes in the "north", "south", "east" or "west" text.
+     */
 
     private void directionBase() {
         System.out.println("You have reached the direction P5.1");                              //debug code
@@ -302,6 +342,14 @@ public class Game {
                 + "enemies HP: " + enemyHealth);
     }
 
+    /**
+     * This method is the initial direction choice once the player runs the game.<br>
+     * It also adds relevant event handlers to the buttons
+     * @see WestHandler
+     * @see EastHandler
+     * @see NorthHandler
+     * @see SouthHandler
+     */
     private void firstDirectionChoice() {
         System.out.println("You have reached the first direction P4");          //debug code
 
@@ -318,6 +366,9 @@ public class Game {
 
     }
 
+    /**
+     * This method simply presents a JOptionPane that has the "Game Win" text.
+     */
     public void setWinText()
     {
         JOptionPane.showMessageDialog(null,"After battling long and hard with skeletons, dragons and the like" +
@@ -326,6 +377,15 @@ public class Game {
                 "\nIt's filled with a wealth of jewels and gold coins."+
                 "\nGAME OVER");
     }
+
+    /**
+     * This method is the main direction choice method<br>
+     * It also adds the relevant event handlers
+     * @see attackHandler
+     * @see sneakHandler
+     * @see runAwayHandler
+     * @see drinkPotHandler
+     */
     public void directionChoice() {
 System.out.println("You have reached DirectionChoice");
 
@@ -354,6 +414,10 @@ System.out.println("You have reached DirectionChoice");
         secondaryTextArea.setText(" ");
     }
 
+    /**
+     * This method is ran when the objective distance is hit.<br>
+     * It hides the unnecessary game panels and runs a timer to automatically close the game after 5 seconds.
+     */
     private void win() {
         mainTextPanel.setVisible(false);
         secondaryTextArea.setVisible(false);                    //removes these panels as there is no need for them after the player "wins"
@@ -365,8 +429,10 @@ System.out.println("You have reached DirectionChoice");
     }
 
 
-
-
+    /**
+     * This method is what runs the attacking section of the game.<br>
+     * It takes away health from both the player and the enemy when necessary
+     */
     private void hit()
     {
         System.out.println("you are in the hit method");        //debug code
@@ -402,7 +468,13 @@ System.out.println("You have reached DirectionChoice");
         }
     }
 
-  //  }
+    /**
+     * This method is called when the enemy's health hits zero. <br>
+     * It contains a random generator that should randomly generate which enemy you face. <br>
+     * It should also call the next direction pick method<br>
+     * It also contains the code to have a random chance to get a health potion from the enemy you kill
+     */
+
     private void enemyDefeated() {
         distance++;                                                             //increments the distance
         System.out.println("You have reached the enemydefeated method P7");     //debug code
@@ -420,6 +492,10 @@ System.out.println("You have reached DirectionChoice");
         }
     }
 
+    /**
+     * This method is called when the player selects to sneak past.<br>
+     * It increments the distance of the player also.
+     */
     private void sneak() {
         System.out.println("You have reached the sneak method P6.2");                   //debug code
 
@@ -427,6 +503,10 @@ System.out.println("You have reached DirectionChoice");
         directionChoice();                                                              //calls the direction choice method
     }
 
+    /**
+     * This method is called when the player selects to heal <br>
+     * It is conditional. The player must have a health potion to actually heal.
+     */
     private void heal() {
         System.out.println("You have reached the heal method P6.3");                    //debug code
 
@@ -442,6 +522,10 @@ System.out.println("You have reached DirectionChoice");
         playerStatsSetup();
     }
 
+    /**
+     * This method is called when the player chooses to run away.<br>
+     * It contains a random number generator to randomly generate the player distance if they run away
+     */
     private void runAway() {
         System.out.println("You have reached the run away method P6.4");            //debug code
 
@@ -450,7 +534,9 @@ System.out.println("You have reached DirectionChoice");
         playerStatsSetup();
     }
 
-    //populates and repopulates the player stats that appear at the top of the screen
+    /**
+     * populates and repopulates the player stats that appear at the top of the screen
+     */
     private void playerStatsSetup() {
         System.out.println("You have reached the player stats setup P2");
         WeaponLabel.setText(weapon);
@@ -458,6 +544,10 @@ System.out.println("You have reached DirectionChoice");
     }
 
     //game over screen
+
+    /**
+     * Displays the gameover text if the players HP depletes to zero
+     */
     private void gameOver() {
         System.out.println("You have reached the gameover method P.END");                   //debug code
 
@@ -472,6 +562,10 @@ System.out.println("You have reached DirectionChoice");
     }
 
     //method to specifically exit the system
+
+    /**
+     * This method is used to specifically exit the system
+     */
     private void exitSystem() {
         System.out.println("You have reached the exit system method P.END");        //debug code
                                                                                     //this code specifically exits the system. That's it.

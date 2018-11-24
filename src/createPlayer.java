@@ -7,8 +7,6 @@ import java.util.*;
 
 public class createPlayer {
 
-    private static Scanner in;
-
 
     public static void openFile(){
         try{
