@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Scanner;
 
 
 /**
@@ -40,7 +39,7 @@ public class Game {
     Font TitleFont = new Font("Garamond", Font.PLAIN, 50);                                           //sets font
     //font name,        font style   size
     Font normalFont = new Font("Garamond", Font.PLAIN, 30);                                          //sets font
-    JButton startButton;
+    JButton startButton,leaderBoard, exit;
     static JButton choice1;
     static JButton choice2;
     static JButton choice3;
@@ -53,6 +52,8 @@ public class Game {
     //BufferedImage background;
 
     TitleScreenHandler TSHandler = new TitleScreenHandler();//task handler for the title screen
+    leaderboardHandler leaderboardHandler = new leaderboardHandler();
+    exitHandler exitHandler = new exitHandler();
     WestHandler WestHandler = new WestHandler();            //task handler for heading west
     EastHandler EastHandler = new EastHandler();            //task handler for heading east
     NorthHandler NorthHandler = new NorthHandler();         //task handler for heading north
@@ -91,8 +92,9 @@ public class Game {
      * @param args - does nothing
      */
     public static void main(String[] args) {
-        createPlayer.openFile();
-        createPlayer.readFile();
+
+        createPlayer x = new createPlayer();
+        x.openFile();
         JFXPanel fxPanel = new JFXPanel();          //referenced from John Brosnan's X:/lab/Structured Programming 2 2018/AudioPlayerStuff
         new Game();             //calls the game method
 
@@ -135,36 +137,43 @@ public class Game {
 
 
         TitlePanel = new JPanel();                                              //initialises the JPanel
-        TitlePanel.setBounds(200, 200, 800, 350);           //x-axis:100,y-axis:100,width and height of "text box"          This line is also taken from: https://www.youtube.com/watch?v=RcvABhflOkI
+        TitlePanel.setBounds(200, 200, 800, 350);               //x-axis:100,y-axis:100,width and height of "text box"          This line is also taken from: https://www.youtube.com/watch?v=RcvABhflOkI
         TitlePanel.setBackground(Color.LIGHT_GRAY);                             //choosing the color for the panel
         TitleName = new JLabel("Dungeons Of Fortuna");                     //Label that will display the title of the game
         TitleName.setForeground(Color.BLUE);                                    //sets the color of the text
         TitleName.setFont(TitleFont);                                           //sets the font of the text
 
         startButtonPanel = new JPanel();                                        //creating a new panel
-        startButtonPanel.setBounds(510, 650, 200, 100);     //see line 62's comment                         This line is also taken from: https://www.youtube.com/watch?v=RcvABhflOkI
+        startButtonPanel.setBounds(510, 450, 250, 200);             //This line is also taken from: https://www.youtube.com/watch?v=RcvABhflOkI
         startButtonPanel.setBackground(Color.LIGHT_GRAY);                       //setting color of panel
 
         startButton = new JButton("START");                                 //creates a button
+        leaderBoard = new JButton("PLAYERS");
+        exit = new JButton("EXIT");
         startButton.setBackground(Color.BLUE);                                   //setting color of button                                                    learning of creating JFrames and having buttons in them referenced from https://www.youtube.com/watch?v=RcvABhflOkI
+        leaderBoard.setBackground(Color.BLUE);
+        exit.setBackground(Color.BLUE);
         startButton.setForeground(Color.LIGHT_GRAY);                             //setting color of button
+        leaderBoard.setForeground(Color.LIGHT_GRAY);
+        exit.setForeground(Color.LIGHT_GRAY);
+        leaderBoard.setFont(normalFont);
+        exit.setFont(normalFont);
         startButton.setFont(normalFont);                                         //setting font of button
+        leaderBoard.setFocusPainted(false);
+        exit.setFocusPainted(false);
+        leaderBoard.addActionListener(leaderboardHandler);
+        exit.addActionListener(exitHandler);
         startButton.addActionListener(TSHandler);                                //adding an action listener to the button
         startButton.setFocusPainted(false);                                      //hides the focus decoration
 
         TitlePanel.add(TitleName);                                              //adds the text box to the panel
         startButtonPanel.add(startButton);                                      //adds the button to the panel
+        startButtonPanel.add(leaderBoard);
+        startButtonPanel.add(exit);
         con.add(TitlePanel);                                                    //adding the panel to the Frame
         con.add(startButtonPanel);                                              //adds the panel to the frame
 
         DisplayWindow.setVisible(true);                                         //sets the window to visible/appear
-
-        /*public void paintComponent(Graphics g)
-        {
-
-        }*/                         //tried to make this work but it would've required way too much restructuring
-
-   /* public void paintComponent(){*/
 
     }
 
@@ -333,6 +342,7 @@ public class Game {
      */
 
     private void directionBase() {
+        String enemy = enemies[rand.nextInt(enemies.length)];
         System.out.println("You have reached the direction P5.1");                              //debug code
         //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
         mainTextArea.setText("After proceeding" + DirectionObject.getDirection() + " you encounter a(n) " + "\n" + enemy +
@@ -387,6 +397,7 @@ public class Game {
      */
     public void directionChoice() {
 System.out.println("You have reached DirectionChoice");
+
 
         if (distance == 10) {
             setWinText();
@@ -480,7 +491,7 @@ System.out.println("You have reached DirectionChoice");
 
         enemyHealth = rand.nextInt(maxEnemyHealth);                             //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
         JOptionPane.showMessageDialog(null, enemy + " has been defeated!");
-        String enemy = enemies[rand.nextInt(enemies.length)];                   //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
+        /*String enemy = enemies[rand.nextInt(enemies.length)];*/                   //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
 
         directionChoice();
 
@@ -587,6 +598,18 @@ System.out.println("You have reached DirectionChoice");
     public class TitleScreenHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             createGameScreen();
+        }
+    }
+
+    public class exitHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event){
+            exitSystem();
+        }
+    }
+
+    public class leaderboardHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event){
+            createPlayer.readFile();
         }
     }
 

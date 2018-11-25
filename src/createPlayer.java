@@ -1,8 +1,6 @@
 //missed the class where we covered this. learned with help from https://www.youtube.com/watch?v=Bws9aQuAcdg
 import javax.swing.*;
 import java.io.*;
-import java.util.*;
-
 
 
 public class createPlayer {
@@ -36,22 +34,12 @@ public class createPlayer {
 
     public static void readFile()
     {
-        try {
-            FileReader fr = new FileReader("player.txt");
-            BufferedReader br = new BufferedReader(fr);
-
-            String str;
-            while ((str = br.readLine()) != null)
-            {
-                System.out.println(str + "\n");
+                try{
+                    Runtime.getRuntime().exec("notepad player.txt");
+                }
+                catch(IOException ex){
+                    ex.printStackTrace();
             }
-
-            br.close();
-
-        }catch(IOException e)
-        {
-                System.out.println("File not found");
-        }
+                JOptionPane.showMessageDialog(null,"Player list has been opened!");
     }
-
 }
