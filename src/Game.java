@@ -112,6 +112,7 @@ public class Game {
         DisplayWindow.setSize(1200, 800);        //sets the size of the JFrame                                   learning of creating JFrames and having buttons in them referenced from https://www.youtube.com/watch?v=RcvABhflOkI
         DisplayWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       //sets the close operation//                        50% of DisplayWindow is not mine, reference: https://www.youtube.com/watch?v=RcvABhflOkI
         DisplayWindow.setLayout(new FlowLayout());          //sets a flow layout
+        DisplayWindow.setResizable(false);
 
         try {
 
