@@ -343,9 +343,10 @@ public class Game {
      */
 
     private void directionBase() {
-        String enemy = enemies[rand.nextInt(enemies.length)];
+
         System.out.println("You have reached the direction P5.1");                              //debug code
         //GAME:                                                                                 referenced @ https://stackoverflow.com/questions/19836549/java-label-usage
+        String enemy = enemies[rand.nextInt(enemies.length)];
         mainTextArea.setText("After proceeding" + DirectionObject.getDirection() + " you encounter a(n) " + "\n" + enemy +
                 ". What would you like to do?");
         secondaryTextArea.setText("Your HP is: " + playerHealthValue + "\n "
@@ -663,19 +664,19 @@ System.out.println("You have reached DirectionChoice");
             }
             if (enemy.equals("Zombie"))
             {
-                AudioFilePlayer.playAudio("src/Resources/Zombie.mp3");
+                AudioFilePlayer.playAudio("src/Resources/Mummy Zombie-SoundBible.com-1966938763.wav");      //referenced from soundbible.com
             }
             if (enemy.equals("Assassin"))
             {
-                AudioFilePlayer.playAudio("src/Resources/swordfight.wav");
+                AudioFilePlayer.playAudio("src/Resources/swordfight.wav");                              //referenced from soundbible.com
             }
             if (enemy.equals("Dragon"))
             {
-                AudioFilePlayer.playAudio("src/Resources/dragon.wav");
+                AudioFilePlayer.playAudio("src/Resources/dragon.wav");                                  //referenced from soundbible.com
             }
             if (enemy.equals("Gremlin"))
             {
-                AudioFilePlayer.playAudio("src/Resources/GremlinNoise.mp3");
+                AudioFilePlayer.playAudio("src/Resources/GremlinNoise.mp3");                            //referenced from soundbible.com
             }
             hit();
         }
