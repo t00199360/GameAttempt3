@@ -39,7 +39,7 @@ public class Game {
     Font TitleFont = new Font("Garamond", Font.PLAIN, 50);                                           //sets font
     //font name,        font style   size
     Font normalFont = new Font("Garamond", Font.PLAIN, 30);                                          //sets font
-    JButton startButton,leaderBoard, exit;
+    static JButton startButton,leaderBoard, exit;
     static JButton choice1;
     static JButton choice2;
     static JButton choice3;
@@ -149,7 +149,7 @@ public class Game {
         startButtonPanel.setBackground(Color.LIGHT_GRAY);                       //setting color of panel
 
         startButton = new JButton("START");                                 //creates a button
-        leaderBoard = new JButton("PLAYERS");
+        leaderBoard = new JButton("PLAYER");
         exit = new JButton("EXIT");
         startButton.setBackground(Color.BLUE);                                   //setting color of button                                                    learning of creating JFrames and having buttons in them referenced from https://www.youtube.com/watch?v=RcvABhflOkI
         leaderBoard.setBackground(Color.BLUE);
@@ -542,7 +542,7 @@ System.out.println("You have reached DirectionChoice");
         System.out.println("You have reached the run away method P6.4");            //debug code
 
         distance = rand.nextInt(lostDistance);                                      //<--this is a random number generator referenced from https://codereview.stackexchange.com/questions/164540/simple-text-based-rpg-in-java  the dice roll in this example is what i used from this
-        secondaryTextArea.setText(" You run away from the " + enemy + " in a state of fear! \n delirious from this you have lost your way!");
+        secondaryTextArea.setText(" You run away from the " + enemy + " in a state of fear! delirious from this you have lost \nyour way!");
         playerStatsSetup();
     }
 
@@ -567,7 +567,7 @@ System.out.println("You have reached DirectionChoice");
         Timer t = new Timer(5000, m);                                                 //<-- code supplied by John Brosnan to replace the ineffective thread.Sleep
         t.start();                                                                          //starts the timer
 
-        mainTextArea.setText("You limp from the dungeon, exhausted and covered in blood." +
+        mainTextArea.setText("You limp from the dungeon, exhausted and \ncovered in blood." +
                 "\nThe bards will tell stories of your adventures!" +
                 "\nJust not very good ones. GAME OVER");
         secondaryTextArea.setVisible(false);                                        //hides the panel as it's no longer needed

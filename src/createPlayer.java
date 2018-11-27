@@ -28,7 +28,8 @@ public class createPlayer {
 
         }catch(IOException e)
         {
-            System.out.println("Error");
+            System.out.println("Error - see the stack trace in the console screen to troubleshoot");
+            e.printStackTrace();
         }
     }
 
